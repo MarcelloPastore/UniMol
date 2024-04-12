@@ -1,3 +1,39 @@
-Old Lesson
-Lezione del 9/04/2024
-
+Processo cooperante
+Considerare la RACE CONDITION
+    -problema della sezione critica
+        -mutua esclusione 
+            se un processo è in esecuzione nella sua sezione critica nessun altro processo può essere inserito nella sua sezione critica
+        -progresso
+            per entrare in una sezione critia NON deve essere già in una sezione critica
+        -attesa limitata
+            bisogna permettere a tutti i processi di entrare nella loro sezione critica
+Soluzioni Hardwer
+    -barriera di memoria
+        inserire istruzioni memory barrier che garantiscono tutte le istruzioni di store e load (e completarle)
+    -istruzioni hardware
+        test_and_set ad ogni modifica della memoria eseguo un test
+        compare_and_swap modo analogo
+    -variabii atomiche
+        operazioni inscindibili su tipi di dati base non sono divisibili
+Soluzioni Software
+    -lock mutex
+        un processo deve acquisire il lick prima di entrare nella sezione critica
+        rilasciare quando esce dalla sezione critica (due funzioni atomiche)
+    -semafori
+        è una variabile intera cui si può accedere solo tramite due operazioni predefinite (due funzioni atomiche)
+    -monitor
+        all'interno del processo sezione critica non può entrare nessun altro processo
+Livelness
+    -stallo (deadlock)
+        se un processo richiede una determinata risorsa che non è più presente c'è un ceadlock
+        starvation (attesa infinita)
+    -inversione di priorità
+Valutazione delle Soluzioni 
+    Livelli di contesa
+        nessuna
+        moderata
+        alta
+Problemi di sincronizzazione
+    -problema produttore e consumatore con memoria limitata
+    -problema dei lettori-scrittori
+    -problema dei filosofi a cena 
