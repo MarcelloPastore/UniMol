@@ -35,5 +35,14 @@ Valutazione delle Soluzioni
         alta
 Problemi di sincronizzazione
     -problema produttore e consumatore con memoria limitata
+        si usa per illustrare la potenza delle primitive di sincronizzazione
+        consumatore svuota la memoria, produttore riempie la memoria 
+        bisogna gestire una sincronizzazione che libera la memoria più velocemente di quanto si riempia
     -problema dei lettori-scrittori
+        generalizzate su alcuni sistemi in modo da fornire 
+        Milk Problem [usare operazioni atomiche per assucurare la coperazione, esiste soltanto lettura e scrittura come operazione atomiche, mutua esclusione]
+        (attesa attiva == peggior problema da riscontrare e risolvere)
     -problema dei filosofi a cena 
+        Classico problema di sincronizzazione 
+        [Evitare situazione di stallo e attesa indefinita (deadlock e starvation)]
+
