@@ -3,25 +3,20 @@
 #include "tree.h"
 
 int main() {
-    tree t = tree_create();
-    treenode node1 = treenode_create(1);
-    treenode node2 = treenode_create(2);
-    treenode node3 = treenode_create(3);
-    treenode node4 = treenode_create(4);
-    treenode node5 = treenode_create(5);
-    treenode node6 = treenode_create(5);
-
-    tree_set_root(t, node1);
-
-    treenode_set_left(node1, node2);
-    treenode_set_left(node2, node3);
-    treenode_set_right(node1, node4);
-    treenode_set_right(node4, node5);
-    treenode_set_left(node3, node6);
+    tree t = tree_new();
+    for(int i = 0; i < 15; i++)
+    {
+        tree_add(t, i);
+    }   
+    int valore;
+    printf("Dimmi quale valore vuoi ricercare: ");
+    scanf("%d", &valore);
 
     printf("\nAltezza albero: %d", tree_height(t));
     printf("\nSize albero: %d\n", tree_size(t));
-    printf("Nodo root: %d\n", tree_get_root_data(t));
+    // printf("Nodo root: %d\n", tree_get_root_data(t));
+    printf("Foglie: %d\n", tree_breadth(t));
+    printf("Livello del valore %d: livello %d\n", valore, tree_level(t, valore));
 
     return 0;
 }
