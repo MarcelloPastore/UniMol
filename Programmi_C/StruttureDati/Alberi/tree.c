@@ -230,5 +230,76 @@ int treenode_level(treenode node, int value){
 int tree_level(tree t, int value){
     return treenode_level(t->root, value);
 }
+/* 
+int treenode_delete(treenode node, treenode parent, int value)  {
+    if (node == NULL)
+        return -1;
+    if (node->data == value && node->left==NULL && node->right==NULL)
+        return 0;
+    if (node->data == value && !(node->left!=NULL && node->right!=NULL)){
+        parent = node;
+        if (node->left->data==value){
+            node = node->left;
+            if (node->left!=NULL)
+            {
+                parent->left=node->left;
+            }else if (node->right!=NULL){
+                parent->left=node->left;
+            }
+            free(node);
+            return 1;
+        }
+    }
+        
+    
+    int lf = treenode_delete(node->left, node->left, value);
+    int rt = treenode_delete(node->right, node->right, value);
+    
 
+}
+int tree_delete(tree t, int value){
+    return treenode_delete(t->root,t->root , value);
+} */
+
+treenode treenode_delete_node(treenode node, int value, int *counter){
+    if (node == NULL)
+        return NULL;
+    
+    node->left = treenode_delete_node(node->left, value, counter);
+    node->right = treenode_delete_node(node->right, value, counter);
+    
+    if (node->data==value && node->left==NULL){
+        treenode next_root = node->right;
+        free(node);
+        return treenode_delete_node(next_root, value, counter);
+    }
+    if (node->data==value && node->right==NULL){
+         treenode next_root = node->left;
+        free(node);
+        return treenode_delete_node(next_root, value, counter);
+    }
+    if(node->data==value && node->left!=NULL && node->right!=NULL)
+        ++(*counter);
+}
+
+int tree_count_value(treenode node, int value){
+    if (node==NULL)
+        return 0;
+
+    int total=0;
+    if (node->data==value)
+    {   
+        total++;
+    }
+    total += tree_count_values(node->left, value);
+    total += tree_count_values(node->right, value);
+
+    return total;
+}
+
+int tree_delete(tree t, int value){
+    int counter = 0;
+    t->root = treenode_delete_node(t->root, value, &counter);
+    return counter;
+}
 

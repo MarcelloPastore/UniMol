@@ -36,4 +36,12 @@ int tree_breadth(tree t);
 *  @return livello
 */
 int tree_level(tree t, int value);
+/**
+ * Elimina il nodo contenente l'elemento selezionato
+ * @param t albero
+ * @param value valore da eliminare
+ * @return numero di nodi che non ha potuto eliminare
+ */ 
+int tree_delete(tree t, int value);
+int tree_count_values(tree t, int value);
 int tree_height(tree t);
