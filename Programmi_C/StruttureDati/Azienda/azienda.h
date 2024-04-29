@@ -4,6 +4,9 @@ Esercitazione COMPANY, creare un azienda
 ----------------------------------------------------------------
 */
 #include "liste.h"
+#define MAX_SIZE_CHAR 20
+#define MAX_SIZE_CF 17
+#define MAX_SIZE_DES 200
 
 
 //! Realizzo le strutture dati dell'azienda () che conterrà i dipendenti (da considerare come i nodi) 
@@ -15,25 +18,28 @@ typedef struct _dipendente* dipendente;
  * 
  * @param nome 
  * @param cognome 
- * @param cf 
+ * @param codice_fiscale
  * @param aree Lista di stringhe 
- * @param livello 
+ * @param aree_di_resp lista di stringhe 
  * @return dipendente 
  */
-dipendente dipendente_new(char* nome, char* cognome, char* cf, list aree, int livello);
+dipendente dipendente_new(char* nome, char* cognome, char* cf);
 /**
- * @brief distrugge la memoria alloca al dipendente (Come il neuralizzatore dei Man In Black) 
+ * @brief aggiunge l'area di azione del dipendente
  * 
- * @param dip 
+ * @param dipendente
+ * @param area 
  */
-void dipendente_destroy(dipendente dip);
+char* dipendente_get_nome(dipendente d);
+char* dipendente_get_cognome(dipendente d);
+char* dipendente_get_codice_fiscale(dipendente d);
+list_stringhe dipendente_get_aree(dipendente d);
 /**
- * @brief Ritorna il responsabile dell'albero (o sottoalbero) azienda
+ * @brief distrugge la memoria allocata al dipendente (Come il neuralizzatore dei Man In Black) 
  * 
- * @param a Azienda
- * @return dipendente 
+ * @param dipendente
  */
-dipendente dipendente_get_responsbile(azienda a);
+void dipendente_destroy(dipendente dipendnete);
 /**
  * @brief Crea una nuova azienda
  * 
@@ -43,33 +49,56 @@ azienda azienda_new();
 /**
  * @brief Distrugge l'azienda (Ka-Boom)
  * 
- * @param a Azienda
+ * @param azienda
  */
 void azienda_destroy(azienda a);
 /**
- * @brief definisce il resposabile (root) dell'albero (o sottoalbero) preso in considerazione
+ * @brief Aggiungere un dipendente al responsabile
  * 
- * @param a Azienda
- * @param responsabile //
+ * @param dipendente
+ * @param azienda
+ * @param codice_fiscale_del_responsabile 
  */
-void azienda_set_responsabile(azienda a, dipendente responsabile);
+void azienda_add_dipendente(dipendente dip, azienda a, char* cf_responsabile, list_string aree_aggiuntive);
 /**
- * @brief restituisce la grandezza dell'azienda
+ * @brief restituisce i responsabili di un dipendente
  * 
- * @param a Azienda
+ * @param azienda
+ * @return list 
+ */
+list_dipendenti azienda_get_responsabili(azienda a, dipendente dip);
+/**
+ * @brief Funzione che licenzia un dipendente e ne promuove il suo successore (se presente)
+ * 
+ * @param azienda
+ * @param codice_fiscale
  * @return int 
  */
 int azienda_licenzia(azienda a, char* cf);
 /**
  * @brief Restituisce l'elenco dell'azienda
  * 
- * @param a Azienda
+ * @param azienda
  */
 void azienda_livello_dipendente(azienda a, dipendente dip);
 /**
- * @brief Aggiunge un dipendente all'azienda    
+ * @brief restituisce la lista dei dipendenti di un azienda
  * 
- * @param a Azienda
- * @param dip Dipendente
+ * @param azienda
+ * @return list 
  */
-void azienda_add_dipendente(azienda a, dipendente dip);
+list_dipendenti elenco_dipendenti(azienda a);
+/**
+ * @brief Dettagli del dipendente singolo
+ * 
+ * @param dipendente
+ * @return dipendente 
+ */
+dipendente dettagli_dipendente(azienda a, char*cf_dipendente);
+/**
+ * @brief Restituisce l'elenco dei dipendenti di un determinato responsabile
+ * 
+ * @param responsabile 
+ * @return lista 
+ */
+list elenco_dip_da_responsabile(dipendente responsabile);
