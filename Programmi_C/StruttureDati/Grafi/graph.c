@@ -89,11 +89,47 @@ bool graph_adjacent(graph g, int node1_id, int node2_id){
 }
 
 int graph_neighbors(graph g, int node, int *result){
-    
+    int count = 0;
+    for (int i = 0; i < g->size; i++){
+        if (g->edges[node][i]){
+            result[count]=i;
+            count ++;
+        }  
+    }
+    return count;
 }
 
-void graph_bfs(graph g);
-void graph_dfs(graph g);
+void graph_bfs(graph g, int start_node){
+
+}
+
+void graph_dfs_rec(graph g, int start_node, bool* visited){
+    //caso base: Nodo visitato => return (mi fermo)
+    if (visited[start_node]) 
+        return;
+    //Nota: se il nodo non ha vicini => lo visito e mi fermo
+     printf("%d, ", g->nodes[start_node]);
+    //passo: visito il nodo e ricorsivamente visito tutti i vicini
+    int neighbors[g->size];
+    int n = graph_neighbors(g, start_node, neighbors);
+    visited[start_node] = true;
+    for (int i = 0; i < n; i++){
+        graph_dfs_rec(g, neighbors[i], visited);
+    }
+
+}
+void graph_dfs(graph g, int start_node){
+    //creare l'array visited
+    // Versione mia
+    // !bool *visited = (bool*)calloc(g->size, sizeof(bool));
+    // Versione prof
+    bool visited[g->size];
+    for (int i = 0; i < g->size; i++){
+        visited[i] = false;
+    }
+    //chiamare graph rec
+    graph_dfs_rec(g, start_node, visited);
+}
 
 bool graph_path_exist(graph g, int node1, int node2);
 

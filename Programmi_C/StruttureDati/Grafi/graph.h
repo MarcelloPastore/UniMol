@@ -62,17 +62,35 @@ int graph_size(graph g);
  */
 bool graph_adjacent(graph g, int node1_id, int node2_id);
 /**
- * @brief Controlla tutti i "vicini" di un nodo
+ * @brief Controlla tutti i "vicini" di un nodo, NB: i nodi vicini sono quelli con achi uscenti dal nodo dato
  * 
- * @param g 
- * @param node 
- * @param result 
+ * @param g Grafo
+ * @param node Nodo di partenza
+ * @param result Array di tutti i nodi vicini del nodo dato 
  * @return int 
  */
 int graph_neighbors(graph g, int node, int *result);
-
-void graph_bfs(graph g);
-
-void graph_dfs(graph g);
-
+/**
+ * @brief Definisce la visita del grafo in ampiezza
+ * 
+ * @param g nodo di partenza
+ * @param g grafo
+ */
+void graph_bfs(graph g, int start_node);
+/**
+ * @brief Definisce la visità del grafo in profondità
+ * 
+ * @param start_node nodo di partenza
+ * @param g Grafo
+ */
+void graph_dfs(graph g, int start_node);
+/**
+ * @brief Verifica l'esistenza di un percorso che collega due nodi
+ * 
+ * @param g Grafo
+ * @param node1 Nodo di partenza
+ * @param node2 Nodo di arrivo
+ * @return true Se il percorso esiste
+ * @return false Se il percorso NON esiste
+ */
 bool graph_path_exist(graph g, int node1, int node2);
