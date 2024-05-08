@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "graph.h"
+#include "queue.h"
+#include "stack.h"
 
 struct _graph {
     int *nodes;
@@ -100,7 +102,30 @@ int graph_neighbors(graph g, int node, int *result){
 }
 
 void graph_bfs(graph g, int start_node){
+    queue q = queue_new();
+    bool visited[g->size];
+    for (int i = 0; i < g->size; i++){
+        visited[i] = false;
+    }
+    queue_add(q, start_node);
+    int node_to_analyze;
 
+    while(!queue_is_empty(q)){
+        queue_poll(q, &node_to_analyze);
+
+        if(!visited[node_to_analyze]){
+            printf("Visited node: %d\n", g->nodes[node_to_analyze]);
+            visited[node_to_analyze] = true;
+
+            int neighbors[g->size];
+            int n = graph_neighbors(g, node_to_analyze, neighbors);
+            for (int i = 0; i < n; i++){
+                if(!visited[neighbors[i]])
+                    queue_add(q, neighbors[i]);
+            }
+        }
+    }   
+    queue_destroy(q);
 }
 
 void graph_dfs_rec(graph g, int start_node, bool* visited){
@@ -108,7 +133,7 @@ void graph_dfs_rec(graph g, int start_node, bool* visited){
     if (visited[start_node]) 
         return;
     //Nota: se il nodo non ha vicini => lo visito e mi fermo
-     printf("%d, ", g->nodes[start_node]);
+     printf("Visited node: %d\n", g->nodes[start_node]);
     //passo: visito il nodo e ricorsivamente visito tutti i vicini
     int neighbors[g->size];
     int n = graph_neighbors(g, start_node, neighbors);
@@ -130,6 +155,62 @@ void graph_dfs(graph g, int start_node){
     //chiamare graph rec
     graph_dfs_rec(g, start_node, visited);
 }
+void graph_dfs_iter(graph g, int start_node){
+    stack s = stack_new();
+    bool visited[g->size];
+    for (int i = 0; i < g->size; i++){
+        visited[i] = false;
+    }
+    stack_push(s, start_node);
+    int node_to_analyze;
 
-bool graph_path_exist(graph g, int node1, int node2);
+    while(!stack_is_empty(s)){
+        stack_pop(s, &node_to_analyze);
+
+        if(!visited[node_to_analyze]){
+            printf("Visited node: %d\n", g->nodes[node_to_analyze]);
+            visited[node_to_analyze] = true;
+
+            int neighbors[g->size];
+            int n = graph_neighbors(g, node_to_analyze, neighbors);
+            for (int i = n-1; i >= 0; i--){
+                if(!visited[neighbors[i]])
+                    stack_push(s, neighbors[i]);
+            }
+        }
+    }   
+    stack_destroy(s);
+}
+
+bool graph_path_exist(graph g, int node1, int node2){
+    
+    queue q = queue_new();
+    bool visited[g->size];
+    for (int i = 0; i < g->size; i++){
+        visited[i] = false;
+    }
+    queue_add(q, node1);
+    int node_to_analyze;
+    int counter = 0;
+    while(!queue_is_empty(q) && node_to_analyze!=node2){
+        queue_poll(q, &node_to_analyze);
+
+        if(!visited[node_to_analyze]){
+            printf("Visited node: %d\n", g->nodes[node_to_analyze]);
+            visited[node_to_analyze] = true;
+
+            int neighbors[g->size];
+            int n = graph_neighbors(g, node_to_analyze, neighbors);
+            for (int i = 0; i < n; i++){
+                if(!visited[neighbors[i]])
+                    queue_add(q, neighbors[i]);
+            }
+        }
+        counter++;
+    }   
+    queue_destroy(q);
+    if (counter>0)
+        return true;
+    return false;   
+}
 

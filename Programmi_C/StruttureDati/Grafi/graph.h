@@ -73,7 +73,7 @@ int graph_neighbors(graph g, int node, int *result);
 /**
  * @brief Definisce la visita del grafo in ampiezza
  * 
- * @param g nodo di partenza
+ * @param start_node nodo di partenza
  * @param g grafo
  */
 void graph_bfs(graph g, int start_node);
@@ -84,6 +84,13 @@ void graph_bfs(graph g, int start_node);
  * @param g Grafo
  */
 void graph_dfs(graph g, int start_node);
+/**
+ * @brief Definisce la visita del grafo in profondità in maniera iterativa (no ricorsione in here) usando uno stack
+ * 
+ * @param g grafo
+ * @param start_node nodo di partenza 
+ */
+void graph_dfs_iter(graph g, int start_node);
 /**
  * @brief Verifica l'esistenza di un percorso che collega due nodi
  * 

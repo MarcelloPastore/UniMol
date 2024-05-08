@@ -22,8 +22,18 @@ int main() {
     graph_add_edge(g, n3, n6);
     graph_add_edge(g, n6, n1);
     
-
+    printf("Depth visit: \n");
     graph_dfs(g, n3);
+    printf("\n");
+    printf("Breath visit: \n");
+    graph_bfs(g, n3);
+    printf("\n");
+    printf("Depth visit iterative: \n");
+    graph_dfs_iter(g, n3);
+    printf("\n");
+    printf("Path exist?\n");
+    graph_path_exist(g, n6, n2);
+    
     
     graph_destroy(g);
 }
