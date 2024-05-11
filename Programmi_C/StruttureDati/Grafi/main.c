@@ -32,7 +32,7 @@ int main() {
     graph_dfs_iter(g, n3);
     printf("\n");
     printf("Path exist?\n");
-    graph_path_exist(g, n6, n2);
+    graph_path_exist(g, n3, n2);
     
     
     graph_destroy(g);
