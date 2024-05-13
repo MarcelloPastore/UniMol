@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "undigraph.h"
+#include "digraph.h"
 #include "queue.h"
 #include "stack.h"
 
-struct _undigraph {
+struct _didigraph {
     int *nodes;
     bool **edges;
 
@@ -13,8 +13,8 @@ struct _undigraph {
     int size;
 };
 
-undigraph undigraph_new(int max_size){
-    struct _undigraph* g = (struct _undigraph*)malloc(sizeof(struct _undigraph));
+didigraph didigraph_new(int max_size){
+    struct _digraph* g = (struct _didigraph*)malloc(sizeof(struct _digraph));
     if (g != NULL){
         g->nodes = (int*)malloc(sizeof(int)*max_size);
         g->edges = (bool**)malloc(sizeof(bool*)*max_size);
@@ -26,7 +26,7 @@ undigraph undigraph_new(int max_size){
     }
     return g;
 }
-void undigraph_destroy(undigraph g){
+void didigraph_destroy(digraph g){
     free(g->nodes);
     for(int i = 0; i<g->max_size;i++){
         free(g->edges[i]);
@@ -35,7 +35,7 @@ void undigraph_destroy(undigraph g){
     free(g);    
 }
 
-int undigraph_add_node(undigraph g, int node_value){
+int didigraph_add_node(didigraph g, int node_value){
     if (g->size >= g->max_size){
         return -1;
     }
@@ -44,7 +44,7 @@ int undigraph_add_node(undigraph g, int node_value){
     return g->size - 1;
 }
 
-int undigraph_add_edge(undigraph g, int node1_id, int node2_id){
+int didigraph_add_edge(didigraph g, int node1_id, int node2_id){
     if( node1_id < 0 || node1_id > g->size){
         return -1;
     }
@@ -55,7 +55,7 @@ int undigraph_add_edge(undigraph g, int node1_id, int node2_id){
     return 0;
 }
 
-int undigraph_remove_edge(undigraph g, int node1_id, int node2_id){
+int didigraph_remove_edge(didigraph g, int node1_id, int node2_id){
     if( node1_id < 0 || node1_id > g->size){
         return -1;
     }
@@ -66,7 +66,7 @@ int undigraph_remove_edge(undigraph g, int node1_id, int node2_id){
     return 0;
 }
 
-int undigraph_search_node(undigraph g, int node_value){
+int didigraph_search_node(didigraph g, int node_value){
     bool found = false;
     int i = 0;
     while (!found && i<g->size){
@@ -82,15 +82,15 @@ int undigraph_search_node(undigraph g, int node_value){
         return -1;
 }
 
-int undigraph_size(undigraph g){
+int didigraph_size(digraph g){
     return g->size;
 }
 
-bool undigraph_adjacent(undigraph g, int node1_id, int node2_id){
+bool didigraph_adjacent(didigraph g, int node1_id, int node2_id){
     return g->edges[node1_id][node2_id];
 }
 
-int undigraph_neighbors(undigraph g, int node, int *result){
+int didigraph_neighbors(didigraph g, int node, int *result){
     int count = 0;
     for (int i = 0; i < g->size; i++){
         if (g->edges[node][i]){
@@ -101,7 +101,7 @@ int undigraph_neighbors(undigraph g, int node, int *result){
     return count;
 }
 
-void undigraph_bfs(undigraph g, int start_node){
+void digraph_bfs(digraph g, int start_node){
     queue q = queue_new();
     bool visited[g->size];
     for (int i = 0; i < g->size; i++){
@@ -118,7 +118,7 @@ void undigraph_bfs(undigraph g, int start_node){
             visited[node_to_analyze] = true;
 
             int neighbors[g->size];
-            int n = undigraph_neighbors(g, node_to_analyze, neighbors);
+            int n = digraph_neighbors(g, node_to_analyze, neighbors);
             for (int i = 0; i < n; i++){
                 if(!visited[neighbors[i]])
                     queue_add(q, neighbors[i]);
@@ -128,7 +128,7 @@ void undigraph_bfs(undigraph g, int start_node){
     queue_destroy(q);
 }
 
-void undigraph_dfs_rec(undigraph g, int start_node, bool* visited){
+void digraph_dfs_rec(digraph g, int start_node, bool* visited){
     //caso base: Nodo visitato => return (mi fermo)
     if (visited[start_node]) 
         return;
@@ -136,14 +136,14 @@ void undigraph_dfs_rec(undigraph g, int start_node, bool* visited){
      printf("Visited node: %d\n", g->nodes[start_node]);
     //passo: visito il nodo e ricorsivamente visito tutti i vicini
     int neighbors[g->size];
-    int n = undigraph_neighbors(g, start_node, neighbors);
+    int n = digraph_neighbors(g, start_node, neighbors);
     visited[start_node] = true;
     for (int i = 0; i < n; i++){
-        undigraph_dfs_rec(g, neighbors[i], visited);
+        digraph_dfs_rec(g, neighbors[i], visited);
     }
 
 }
-void undigraph_dfs(undigraph g, int start_node){
+void digraph_dfs(digraph g, int start_node){
     //creare l'array visited
     // Versione mia
     // !bool *visited = (bool*)calloc(g->size, sizeof(bool));
@@ -152,10 +152,10 @@ void undigraph_dfs(undigraph g, int start_node){
     for (int i = 0; i < g->size; i++){
         visited[i] = false;
     }
-    //chiamare undigraph rec
-    undigraph_dfs_rec(g, start_node, visited);
+    //chiamare digraph rec
+    digraph_dfs_rec(g, start_node, visited);
 }
-void undigraph_dfs_iter(undigraph g, int start_node){
+void digraph_dfs_iter(digraph g, int start_node){
     stack s = stack_new();
     bool visited[g->size];
     for (int i = 0; i < g->size; i++){
@@ -172,7 +172,7 @@ void undigraph_dfs_iter(undigraph g, int start_node){
             visited[node_to_analyze] = true;
 
             int neighbors[g->size];
-            int n = undigraph_neighbors(g, node_to_analyze, neighbors);
+            int n = digraph_neighbors(g, node_to_analyze, neighbors);
             for (int i = n-1; i >= 0; i--){
                 if(!visited[neighbors[i]])
                     stack_push(s, neighbors[i]);
@@ -182,7 +182,7 @@ void undigraph_dfs_iter(undigraph g, int start_node){
     stack_destroy(s);
 }
 
-bool undigraph_path_exist(undigraph g, int node1, int node2){
+bool digraph_path_exist(digraph g, int node1, int node2){
     
     queue q = queue_new();
     bool visited[g->size];
@@ -200,7 +200,7 @@ bool undigraph_path_exist(undigraph g, int node1, int node2){
             visited[node_to_analyze] = true;
 
             int neighbors[g->size];
-            int n = undigraph_neighbors(g, node_to_analyze, neighbors);
+            int n = digraph_neighbors(g, node_to_analyze, neighbors);
             for (int i = 0; i < n; i++){
                 if(!visited[neighbors[i]])
                     queue_add(q, neighbors[i]);
