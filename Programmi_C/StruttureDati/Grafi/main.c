@@ -14,11 +14,12 @@ int main() {
     int n5 = undigraph_add_node(g, 5);
     int n6 = undigraph_add_node(g, 6);
 
-    undigraph_add_edge(g, n1, n2);
+    undigraph_add_edge(g, n1, n3);
+    undigraph_add_edge(g, n2, n1);
     undigraph_add_edge(g, n1, n3);
     undigraph_add_edge(g, n1, n4);
-    undigraph_add_edge(g, n2, n3);
     undigraph_add_edge(g, n2, n5);
+    undigraph_add_edge(g, n2, n3);
     undigraph_add_edge(g, n3, n6);
     undigraph_add_edge(g, n6, n1);
     

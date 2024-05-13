@@ -19,13 +19,27 @@ undigraph undigraph_new(int max_size){
         g->nodes = (int*)malloc(sizeof(int)*max_size);
         g->edges = (bool**)malloc(sizeof(bool*)*max_size);
         for(int i = 0; i<max_size;i++){
-            g->edges[i] = (bool*)calloc(max_size, sizeof(bool));
+            g->edges[i] = (bool*)calloc(max_size-i, sizeof(bool));
         }
         g->max_size=max_size;
         g->size=0;
     }
     return g;
 }
+/* 
+?matrice triangolare inferiore
+?0----
+?00---
+?110--
+?1000-
+?00100
+*Matrice triangolare superiore
+*00110
+*-0100
+*--001
+*---00
+*----0
+*/
 void undigraph_destroy(undigraph g){
     free(g->nodes);
     for(int i = 0; i<g->max_size;i++){

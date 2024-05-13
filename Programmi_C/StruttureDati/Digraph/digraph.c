@@ -5,7 +5,7 @@
 #include "queue.h"
 #include "stack.h"
 
-struct _didigraph {
+struct _digraph {
     int *nodes;
     bool **edges;
 
@@ -13,8 +13,8 @@ struct _didigraph {
     int size;
 };
 
-didigraph didigraph_new(int max_size){
-    struct _digraph* g = (struct _didigraph*)malloc(sizeof(struct _digraph));
+digraph digraph_new(int max_size){
+    struct _digraph* g = (struct _digraph*)malloc(sizeof(struct _digraph));
     if (g != NULL){
         g->nodes = (int*)malloc(sizeof(int)*max_size);
         g->edges = (bool**)malloc(sizeof(bool*)*max_size);
@@ -26,7 +26,7 @@ didigraph didigraph_new(int max_size){
     }
     return g;
 }
-void didigraph_destroy(digraph g){
+void digraph_destroy(digraph g){
     free(g->nodes);
     for(int i = 0; i<g->max_size;i++){
         free(g->edges[i]);
@@ -35,7 +35,7 @@ void didigraph_destroy(digraph g){
     free(g);    
 }
 
-int didigraph_add_node(didigraph g, int node_value){
+int digraph_add_node(digraph g, int node_value){
     if (g->size >= g->max_size){
         return -1;
     }
@@ -44,7 +44,7 @@ int didigraph_add_node(didigraph g, int node_value){
     return g->size - 1;
 }
 
-int didigraph_add_edge(didigraph g, int node1_id, int node2_id){
+int digraph_add_edge(digraph g, int node1_id, int node2_id){
     if( node1_id < 0 || node1_id > g->size){
         return -1;
     }
@@ -55,7 +55,7 @@ int didigraph_add_edge(didigraph g, int node1_id, int node2_id){
     return 0;
 }
 
-int didigraph_remove_edge(didigraph g, int node1_id, int node2_id){
+int digraph_remove_edge(digraph g, int node1_id, int node2_id){
     if( node1_id < 0 || node1_id > g->size){
         return -1;
     }
@@ -66,7 +66,7 @@ int didigraph_remove_edge(didigraph g, int node1_id, int node2_id){
     return 0;
 }
 
-int didigraph_search_node(didigraph g, int node_value){
+int digraph_search_node(digraph g, int node_value){
     bool found = false;
     int i = 0;
     while (!found && i<g->size){
@@ -82,15 +82,15 @@ int didigraph_search_node(didigraph g, int node_value){
         return -1;
 }
 
-int didigraph_size(digraph g){
+int digraph_size(digraph g){
     return g->size;
 }
 
-bool didigraph_adjacent(didigraph g, int node1_id, int node2_id){
+bool digraph_adjacent(digraph g, int node1_id, int node2_id){
     return g->edges[node1_id][node2_id];
 }
 
-int didigraph_neighbors(didigraph g, int node, int *result){
+int digraph_neighbors(digraph g, int node, int *result){
     int count = 0;
     for (int i = 0; i < g->size; i++){
         if (g->edges[node][i]){
