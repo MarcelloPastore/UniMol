@@ -51,7 +51,16 @@ int undigraph_add_edge(undigraph g, int node1_id, int node2_id){
     if( node2_id < 0 || node2_id > g->size){
         return -2;
     }
-    g->edges[node1_id][node2_id] = true;
+    int i;
+    int j;
+    if (node1_id > node2_id){
+        i=node2_id;
+        j=node1_id;
+    }else {
+        i=node1_id;
+        j=node2_id;
+    }
+    g->edges[i][j] = true;
     return 0;
 }
 
@@ -62,7 +71,16 @@ int undigraph_remove_edge(undigraph g, int node1_id, int node2_id){
     if( node2_id < 0 || node2_id > g->size){
         return -2;
     }
-    g->edges[node1_id][node2_id] = false;
+    int i;
+    int j;
+    if (node1_id > node2_id){
+        i=node2_id;
+        j=node1_id;
+    }else {
+        i=node1_id;
+        j=node2_id;
+    }
+    g->edges[i][j] = false;
     return 0;
 }
 
@@ -87,45 +105,27 @@ int undigraph_size(undigraph g){
 }
 
 bool undigraph_adjacent(undigraph g, int node1_id, int node2_id){
-    return g->edges[node1_id][node2_id];
+    int i;
+    int j;
+    if (node1_id > node2_id){
+        i=node2_id;
+        j=node1_id;
+    }else {
+        i=node1_id;
+        j=node2_id;
+    }
+    return g->edges[i][j];
 }
 
 int undigraph_neighbors(undigraph g, int node, int *result){
     int count = 0;
     for (int i = 0; i < g->size; i++){
-        if (g->edges[node][i]){
+        if (undigraph_adjacent(g, node, i)){ //* L'utilizzo della funzione "adiacenti" ci permette di risplvere il problema di controllo dei nodi adiacenti per i grafi non ordinati
             result[count]=i;
             count ++;
         }  
     }
     return count;
-}
-
-void undigraph_bfs(undigraph g, int start_node){
-    queue q = queue_new();
-    bool visited[g->size];
-    for (int i = 0; i < g->size; i++){
-        visited[i] = false;
-    }
-    queue_add(q, start_node);
-    int node_to_analyze;
-
-    while(!queue_is_empty(q)){
-        queue_poll(q, &node_to_analyze);
-
-        if(!visited[node_to_analyze]){
-            printf("Visited node: %d\n", g->nodes[node_to_analyze]);
-            visited[node_to_analyze] = true;
-
-            int neighbors[g->size];
-            int n = undigraph_neighbors(g, node_to_analyze, neighbors);
-            for (int i = 0; i < n; i++){
-                if(!visited[neighbors[i]])
-                    queue_add(q, neighbors[i]);
-            }
-        }
-    }   
-    queue_destroy(q);
 }
 
 void undigraph_dfs_rec(undigraph g, int start_node, bool* visited){
@@ -136,7 +136,7 @@ void undigraph_dfs_rec(undigraph g, int start_node, bool* visited){
      printf("Visited node: %d\n", g->nodes[start_node]);
     //passo: visito il nodo e ricorsivamente visito tutti i vicini
     int neighbors[g->size];
-    int n = undigraph_neighbors(g, start_node, neighbors);
+    int n = undigraph_neighbors(g, start_node, neighbors);//* chiamando la funzione dei vicini questa funzione funziona allo stesso modo anche per i grafi indiretti
     visited[start_node] = true;
     for (int i = 0; i < n; i++){
         undigraph_dfs_rec(g, neighbors[i], visited);
@@ -146,7 +146,7 @@ void undigraph_dfs_rec(undigraph g, int start_node, bool* visited){
 void undigraph_dfs(undigraph g, int start_node){
     //creare l'array visited
     // Versione mia
-    // !bool *visited = (bool*)calloc(g->size, sizeof(bool));
+    //!  bool *visited = (bool*)calloc(g->size, sizeof(bool));  funziona ma non conviene
     // Versione prof
     bool visited[g->size];
     for (int i = 0; i < g->size; i++){
@@ -180,6 +180,33 @@ void undigraph_dfs_iter(undigraph g, int start_node){
         }
     }   
     stack_destroy(s);
+}
+
+void undigraph_bfs(undigraph g, int start_node){
+    queue q = queue_new();
+    bool visited[g->size];
+    for (int i = 0; i < g->size; i++){
+        visited[i] = false;
+    }
+    queue_add(q, start_node);
+    int node_to_analyze;
+
+    while(!queue_is_empty(q)){
+        queue_poll(q, &node_to_analyze);
+
+        if(!visited[node_to_analyze]){
+            printf("Visited node: %d\n", g->nodes[node_to_analyze]);
+            visited[node_to_analyze] = true;
+
+            int neighbors[g->size];
+            int n = undigraph_neighbors(g, node_to_analyze, neighbors);
+            for (int i = 0; i < n; i++){
+                if(!visited[neighbors[i]])
+                    queue_add(q, neighbors[i]);
+            }
+        }
+    }   
+    queue_destroy(q);
 }
 
 bool undigraph_path_exist(undigraph g, int node1, int node2){
