@@ -1,0 +1,26 @@
+// ! Lezione liste 1
+Una lista è una collezione di elementi ordinata. Da un punto di vista concettuale, una lista è molto simile ad un array.
+Una lista può contenere duplicati. A differenza degli array una lista è per definizione dinamica. Esistono diversi modi per implementare
+una lista, uno di questi è attraverso un array dinamico. l'implementazione classica è quella della lista concatenata.
+indipendentemente dall'implementaione una lista fornisce:
+- aggiunta di un elemento all'inizio o alla fine di un array;
+- accesso all'elemento i-esimo della dista (oltre che al primo ed all'ultimo elemento)
+- controllo se la lista è vuota
+- scorrimento lista
+
+Liste concatenate
+una lista concatenata  è una sequenza di nodi. Ogni nodo è caratterizzato da un valore (payload), che dipende dal tipo di dato.
+
+
+
+Nodo: 
+[payload][next]
+
+Lista concatenata di 3 elementi:
+[payload(1)][Next]->[payload(2)][Next]->[payload(3)][Next]->NULL
+// ------------------------------------------------------------------------------------------------------------------------------------
+// ! Lezione liste 2
+
+
+
+

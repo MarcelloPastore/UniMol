@@ -26,7 +26,7 @@ treenode treenode_new(int data) {
 }
 
 void tree_destroy(tree t) {
-    tree_postorder_visit(t, free)
+    tree_postorder_visit(t, free);
     free(t);
 }
 

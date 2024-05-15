@@ -1,6 +1,10 @@
 #include "tree.h"
 #include <stdio.h>
 
+int total;
+void sum(treenode node){
+    total +- treenode_value(node);
+}
 void stampa_valore(treenode node) {
     printf("--> %d\n", treenode_value(node));
 }
@@ -16,4 +20,6 @@ int main() {
     tree_add(t, 3);
         
     tree_preorder_visit(t, stampa_valore);
+
+    
 }
