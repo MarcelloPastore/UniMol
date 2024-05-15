@@ -18,8 +18,17 @@ void tree_set_root(tree t, treenode root);
 void tree_add(tree t, int value);
 
 
-void tree_preorder_visit(tree t);
+// void tree_preorder_visit(tree t);
+/**
+ * @brief effettua una visita pre-order di un dato albero 
+ * 
+ * @param t albero
+ * @param f funzione 
+ */
+void tree_preorder_visit(tree t, void (*f)(treenode));
+
 void tree_inorder_visit(tree t);
+
 void tree_postorder_visit(tree t);
 
 

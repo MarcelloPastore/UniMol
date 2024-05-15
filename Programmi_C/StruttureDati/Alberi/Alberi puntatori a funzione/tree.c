@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include "tree.h"
 #include "queue.h"
 
@@ -26,18 +25,8 @@ treenode treenode_new(int data) {
     return node;
 }
 
-// O(n) -> O(2^h)
-void treenode_destroy(treenode node) {
-    if (node == NULL)
-        return;
-    
-    treenode_destroy(node->left);
-    treenode_destroy(node->right);
-    free(node);
-}
-
 void tree_destroy(tree t) {
-    treenode_destroy(t->root);
+    tree_postorder_visit(t, free)
     free(t);
 }
 
@@ -128,43 +117,43 @@ void tree_add(tree t, int value) {
     queue_destroy(to_analyze);
 }
 
-void treenode_preorder_visit(treenode node) {
+void treenode_preorder_visit(treenode node, void (*f)(treenode)) {
     if (node == NULL)
         return;
     
-    printf("%d\n", node->data);
-    treenode_preorder_visit(node->left);
-    treenode_preorder_visit(node->right);
+    f(node);
+    treenode_preorder_visit(node->left, f);
+    treenode_preorder_visit(node->right, f);
 }
 
-void treenode_inorder_visit(treenode node) {
+void treenode_inorder_visit(treenode node, void (*f)(treenode)) {
     if (node == NULL)
         return;
     
-    treenode_inorder_visit(node->left);
-    printf("%d\n", node->data);
-    treenode_inorder_visit(node->right);
+    treenode_inorder_visit(node->left, f);
+    f(node);
+    treenode_inorder_visit(node->right, f);
 }
 
-void treenode_postorder_visit(treenode node) {
+void treenode_postorder_visit(treenode node, void (*f)(treenode)) {
     if (node == NULL)
         return;
     
-    treenode_postorder_visit(node->left);
-    treenode_postorder_visit(node->right);
-    printf("%d\n", node->data);
+    treenode_postorder_visit(node->left, f);
+    treenode_postorder_visit(node->right, f);
+    f(node);
 }
 
-void tree_preorder_visit(tree t) {
-    treenode_preorder_visit(t->root);
+void tree_preorder_visit(tree t, void (*f)(treenode)) {
+    treenode_preorder_visit(t->root, f);
 }
 
-void tree_inorder_visit(tree t) {
-    treenode_inorder_visit(t->root);
+void tree_inorder_visit(tree t, void (*f)(treenode)) {
+    treenode_inorder_visit(t->root, f);
 }
 
-void tree_postorder_visit(tree t) {
-    treenode_postorder_visit(t->root);
+void tree_postorder_visit(tree t, void (*f)(treenode)) {
+    treenode_postorder_visit(t->root, f);
 }
 
 int treenode_size_rec(treenode node) {
@@ -216,3 +205,100 @@ int tree_size_df(tree t) {
     return counter;
 }
 
+int treenode_breadth(treenode node) {
+    if (node == NULL)
+        return 0;
+    
+    if (node->left == NULL && node->right == NULL)
+        return 1;
+    
+    return treenode_breadth(node->left) + treenode_breadth(node->right);
+}
+
+int tree_breadth(tree t) {
+    return treenode_breadth(t->root);
+}
+
+int treenode_level(treenode node, int value) {
+    if (node == NULL)
+        return -1;
+    
+    if (node->data == value)
+        return 0;
+    
+    int level_left = treenode_level(node->left, value);
+    int level_right = treenode_level(node->right, value);
+    
+    if (level_right == -1 && level_left == -1)
+        return -1;
+    
+    if (level_left != -1 && level_right != -1) {
+        if (level_left < level_right)
+            return level_left + 1;
+        else
+            return level_right + 1;
+    }
+    
+    if (level_left != -1) {
+        return level_left + 1;
+    } else {
+        return level_right + 1;
+    }
+}
+
+int tree_level(tree t, int value) {
+    return treenode_level(t->root, value);
+}
+
+treenode treenode_delete_node(treenode node, int value, int* counter) {
+    if (node == NULL)
+        return NULL;
+    
+    node->left  = treenode_delete_node(node->left, value, counter);
+    node->right = treenode_delete_node(node->right, value, counter);
+    
+    if (node->data == value) {
+        if (node->right != NULL && node->left != NULL)
+            ++(*counter);
+        else {
+            treenode next_root;
+            
+            if (node->left == NULL) {
+                next_root = node->right;
+            } else {
+                next_root = node->left;
+            }
+            
+            free(node);
+            return next_root;
+        }
+    }
+    
+    return node;
+}
+
+
+int treenode_count_values(treenode node, int value) {
+    if (node == NULL) {
+        return 0;
+    }
+    
+    int total = 0;
+    if (node->data == value)
+        total++;
+    
+    total += treenode_count_values(node->left, value);
+    total += treenode_count_values(node->right, value);
+    
+    return total;
+}
+
+int tree_count_values(tree t, int value) {
+    return treenode_count_values(t->root, value);
+}
+
+int tree_delete(tree t, int value) {
+    int counter = 0;
+    t->root = treenode_delete_node(t->root, value, &counter);
+    return counter;
+}

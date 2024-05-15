@@ -37,13 +37,6 @@ void queue_destroy(queue q) {
 
 int queue_add(queue q, int value) {
     struct _node* node = (struct _node*)malloc(sizeof(struct _node));
-   
-    /* struct _node* current_node = q->head;
-    while (current_node = q->head){
-        if(current_node->data == value)
-            return -1;
-        current_node=node->next;
-    } */
     if (node == NULL)
         return -1;
     
