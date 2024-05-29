@@ -9,13 +9,15 @@
 #define ERROR_STRUCT_NULL -1
 
 
+
 // Mi creo la struttura dei nodi e delle liste
 struct _node {
-    int data; 
+    listelement data; 
     struct _node* next;
 };
 struct _list {
     struct _node* first;
+    listype type;
 };
 struct _iterator {
     struct _node* current;
@@ -24,7 +26,7 @@ struct _iterator {
 
 
 // mi creo la lista vuota
-list list_new(){
+list list_new(listype type){
     struct _list* l = (struct _list*)malloc(sizeof(struct _list));
     if (l != NULL){
         l->first = NULL;
