@@ -3,10 +3,11 @@ package it.unimolise.annunci.app;
 public class GestoreImmobili {
 
     public void addImmobile(Immobile immobile) {
-
+        //TODO Implement
     }
 
-    public void getimmobile(int codice) {
-
+    public Immobile getimmobile(int codice) {
+        //TODO Implement
+        return null;
     }
 }

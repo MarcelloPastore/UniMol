@@ -18,7 +18,18 @@ public class Main {
                 0,
                 5
         );
+        Abitazione b = new Abitazione(
+                new Indirizzo("Torrecuso", "Via Tora I", "55"),
+                1940,
+                'F',
+                250,
+                50,
+                1,
+                10
+        );
         gestore.addImmobile(a);
+        gestore.addImmobile(b);
         System.out.println(a.calcolaSuperficeCommerciale());
+        System.out.println(b.calcolaSuperficeCommerciale());
     }
 }
