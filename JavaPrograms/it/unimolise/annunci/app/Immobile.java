@@ -60,11 +60,24 @@ public class Immobile {
     }
 
     public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
         if (!(other instanceof Immobile)) {
             return false;
         }
-        Immobile otherImmobile = (Immobile) other;
 
+        Immobile otherImmobile = (Immobile) other;
+        if (this.indirizzo == null) {
+            return false;
+        }
         return this.indirizzo.equals(otherImmobile.indirizzo);
+    }
+
+    public int hashCode() {
+        if (this.indirizzo == null) {
+            return -1;
+        }
+        return this.indirizzo.hashCode();
     }
 }

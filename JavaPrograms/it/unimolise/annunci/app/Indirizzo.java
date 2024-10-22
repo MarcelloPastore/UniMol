@@ -31,12 +31,24 @@ public class Indirizzo {
     }
 
     public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
         if (!(other instanceof Indirizzo)) {
             return false;
         }
         Indirizzo otherIndirizzo = (Indirizzo) other;
+        if (this.citta == null || this.via == null || this.numeroCivico == null) {
+            return false;
+        }
         return this.citta.equals(otherIndirizzo.citta)
                 && this.via.equals(otherIndirizzo.via)
                 && this.numeroCivico.equals(otherIndirizzo.numeroCivico);
+    }
+
+    public int hashCode() {
+        return this.citta.hashCode()
+                + this.via.hashCode()
+                + this.numeroCivico.hashCode();
     }
 }
