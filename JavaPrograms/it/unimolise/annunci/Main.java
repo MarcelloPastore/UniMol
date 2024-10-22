@@ -20,16 +20,30 @@ public class Main {
         );
         Abitazione b = new Abitazione(
                 new Indirizzo("Torrecuso", "Via Tora I", "55"),
-                1940,
+                1950,
                 'F',
                 250,
-                50,
-                1,
-                10
+                15,
+                0,
+                8
         );
-        gestore.addImmobile(a);
-        gestore.addImmobile(b);
-        System.out.println(a.calcolaSuperficeCommerciale());
-        System.out.println(b.calcolaSuperficeCommerciale());
+        Abitazione c = new Abitazione(
+                new Indirizzo("Palata", "Via Vincenzo Cuoco", "9"),
+                1945,
+                'E',
+                140,
+                10,
+                0,
+                4
+        );
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+
+        if (a.equals(c)) {
+            System.out.println("Uguali");
+        } else {
+            System.out.println("NON uguali");
+        }
     }
 }

@@ -16,4 +16,9 @@ public class LocaleCommerciale extends Immobile {
     public float calcolaSuperficeCommerciale() {
         return this.getSuperficeInterna() + volume;
     }
+
+    public String toString() {
+        return "[LC]" + super.toString();
+
+    }
 }

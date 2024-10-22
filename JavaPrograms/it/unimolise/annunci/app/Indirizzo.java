@@ -24,4 +24,19 @@ public class Indirizzo {
         return numeroCivico;
     }
 
+    public String toString() {
+        return this.via + " ("
+                + this.citta + ") "
+                + this.numeroCivico;
+    }
+
+    public boolean equals(Object other) {
+        if (!(other instanceof Indirizzo)) {
+            return false;
+        }
+        Indirizzo otherIndirizzo = (Indirizzo) other;
+        return this.citta.equals(otherIndirizzo.citta)
+                && this.via.equals(otherIndirizzo.via)
+                && this.numeroCivico.equals(otherIndirizzo.numeroCivico);
+    }
 }

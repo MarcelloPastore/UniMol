@@ -39,4 +39,9 @@ public class Abitazione extends Immobile {
         superficeCommerciale += this.garage * 0.50;
         return superficeCommerciale;
     }
+
+    public String toString() {
+        return "[A]" + super.toString();
+
+    }
 }

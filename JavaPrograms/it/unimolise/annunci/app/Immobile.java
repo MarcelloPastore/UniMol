@@ -51,4 +51,20 @@ public class Immobile {
         return this.superficeInterna;
     }
 
+    public Indirizzo getIndirizzo() {
+        return this.indirizzo;
+    }
+
+    public String toString() {
+        return "[" + this.codice + "] " + this.indirizzo + " - " + this.calcolaSuperficeCommerciale();
+    }
+
+    public boolean equals(Object other) {
+        if (!(other instanceof Immobile)) {
+            return false;
+        }
+        Immobile otherImmobile = (Immobile) other;
+
+        return this.indirizzo.equals(otherImmobile.indirizzo);
+    }
 }
