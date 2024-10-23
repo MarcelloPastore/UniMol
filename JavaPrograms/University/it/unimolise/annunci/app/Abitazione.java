@@ -20,6 +20,7 @@ public class Abitazione extends Immobile {
         this.vani = vani;
     }
 
+    @Override
     public float calcolaSuperficeCommerciale() {
         /*
                 superfice interna +
@@ -40,6 +41,7 @@ public class Abitazione extends Immobile {
         return superficeCommerciale;
     }
 
+    @Override
     public String toString() {
         return "[A]" + super.toString();
 

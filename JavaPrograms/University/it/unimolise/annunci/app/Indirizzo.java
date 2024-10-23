@@ -24,12 +24,14 @@ public class Indirizzo {
         return numeroCivico;
     }
 
+    @Override
     public String toString() {
         return this.via + " ("
                 + this.citta + ") "
                 + this.numeroCivico;
     }
 
+    @Override
     public boolean equals(Object other) {
         if (other == null) {
             return false;
@@ -46,6 +48,7 @@ public class Indirizzo {
                 && this.numeroCivico.equals(otherIndirizzo.numeroCivico);
     }
 
+    @Override
     public int hashCode() {
         return this.citta.hashCode()
                 + this.via.hashCode()

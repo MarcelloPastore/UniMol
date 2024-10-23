@@ -55,10 +55,12 @@ public class Immobile {
         return this.indirizzo;
     }
 
+    @Override
     public String toString() {
         return "[" + this.codice + "] " + this.indirizzo + " - " + this.calcolaSuperficeCommerciale();
     }
 
+    @Override
     public boolean equals(Object other) {
         if (other == null) {
             return false;
@@ -74,6 +76,7 @@ public class Immobile {
         return this.indirizzo.equals(otherImmobile.indirizzo);
     }
 
+    @Override
     public int hashCode() {
         if (this.indirizzo == null) {
             return -1;

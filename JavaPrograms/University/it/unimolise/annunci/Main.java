@@ -36,6 +36,9 @@ public class Main {
                 0,
                 4
         );
+        gestore.addImmobile(a);
+        gestore.addImmobile(b);
+        gestore.addImmobile(c);
         System.out.println(a);
         System.out.println(b);
         System.out.println(c);
