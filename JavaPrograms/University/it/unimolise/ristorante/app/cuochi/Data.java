@@ -1,4 +1,4 @@
-package gestore.app;
+package it.unimolise.ristorante.app.cuochi;
 
 public class Data {
 

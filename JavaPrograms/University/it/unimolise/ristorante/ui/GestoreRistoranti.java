@@ -1,4 +1,7 @@
-package gestore.app;
+package it.unimolise.ristorante.ui;
+
+import it.unimolise.ristorante.app.cuochi.Cuoco;
+import it.unimolise.ristorante.app.ricette.Ricetta;
 
 public class GestoreRistoranti {
 
